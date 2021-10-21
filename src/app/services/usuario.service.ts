@@ -1,15 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
-import {catchError, map, tap} from 'rxjs/operators';
+import {catchError, delay, map, tap} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
+import { environment } from 'src/environments/environment';
 
 import { LoginForm } from '../interfaces/login-form.interface';
 import { RegisterForm } from '../interfaces/register-form.interface';
-import { Observable, of } from 'rxjs';
+import { cargarUsuario } from '../interfaces/cargar-usuarios.interface';
+
+
 import { Usuario } from '../models/usuario.model';
+
 
 
 const base_url = environment.base_url;
@@ -39,6 +43,14 @@ export class UsuarioService {
 
   get uid(): string {
     return this.usuario.uid || '';
+  }
+
+  get headers(){
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    }
   }
 
   googleInit(){
@@ -103,16 +115,11 @@ export class UsuarioService {
   }
 
   actualizarPerfil(data:{ email:string, nombre:string, role:any }){
-    
-    data = {
+    data={
       ...data,
       role:this.usuario.role
-    };
-    return this.http.put(`${ base_url }/usuarios/${this.uid}`,data, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+    }
+    return this.http.put(`${ base_url }/usuarios/${this.uid}`,data, this.headers);
   }
 
   login( formData: LoginForm){
@@ -135,4 +142,33 @@ export class UsuarioService {
               )
   }
 
+  cargarUsuarios(desde:number=0){
+    //http://localhost:3000/api/usuarios?desde=5
+    const url=`${ base_url }/usuarios?desde=${ desde }`
+    return this.http.get<cargarUsuario>(url, this.headers)
+              .pipe(
+               // delay(1000), //genera delay de 1seg para mostrar cargando (opcional)
+                map(resp=>{
+                  const usuarios=resp.usuarios.map(
+                    user => new Usuario(user.nombre,user.email,'',user.img,user.google,user.role,user.uid) ///utilizo para mostrar imagen
+                  );
+                  return {
+                    total:resp.total,
+                    usuarios
+                  };
+                })
+              )
+  }
+
+  eliminarUsuario(usuario:Usuario){
+    const url=`${ base_url }/usuarios/${usuario.uid}`;
+
+    return this.http.delete(url, this.headers);
+
+  }
+
+  guardarUsuario(usuario:Usuario){
+  
+    return this.http.put(`${ base_url }/usuarios/${usuario.uid}`,usuario, this.headers);
+  }
 }

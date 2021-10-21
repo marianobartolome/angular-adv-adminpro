@@ -76,7 +76,7 @@ export class PerfilComponent implements OnInit {
       .then(img=>{ 
         this.usuario.img=img;
         Swal.fire('Guardado', 'Imagen actualizada','success');
-      },(err)=>{
+      }).catch(err=>{
         console.log(err);
         Swal.fire('Error en guardado', 'No se pudo subir la imagen');
       });
