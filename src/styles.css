@@ -1,53 +1,55 @@
-.fast{
-    -webkit-animation-duration:0.3s;
-    animation-duration:0.3s;
-    -webkit-animation-fill-mode:both;
-    animation-fill-mode:both
+.fast {
+    -webkit-animation-duration: 0.3s;
+    animation-duration: 0.3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both
 }
 
-#themecolors .selector, .cursor{
-    cursor:pointer;
+#themecolors .selector,
+.cursor {
+    cursor: pointer;
 }
 
-#google-btn{
+#google-btn {
     align-items: center;
     display: flex;
     justify-content: center;
     text-align: center;
 }
 
-.img-avatar{
-   width: 200px;
-   height: 200px; 
+.img-avatar {
+    width: 200px;
+    height: 200px;
 }
 
-.w100{
+.w100 {
     width: 100px;
 }
 
-.w150{
+.w150 {
     width: 150px;
 }
 
-.avatar{
-    
+.w200 {
+    width: 200px;
+}
+
+.avatar {
     border-radius: 100%;
     width: 50px;
     height: 50px;
-
 }
 
-.fondo-modal-imagen{
+.fondo-modal-imagen {
     background-color: rgba(0, 0, 0, 0.4);
-    left:0px;
+    left: 0px;
     height: 100%;
     position: fixed;
     top: 0px;
     width: 100%;
     z-index: 9999;
-
 }
 
-.oculto{
+.oculto {
     display: none;
 }
