@@ -12,18 +12,21 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class SidebarComponent {
 
   public usuario!: Usuario;
-  public imgUrl='';
-
-  menuItems: any[] = [];
-  constructor( private sidebarSettings:SidebarService,
+  
+  public menu:any;
+  
+  constructor( private sidebarService:SidebarService,
                 private usuarioService: UsuarioService) { 
                   
     //this.imgUrl=usuarioService.usuario.imagenUrl;
-    this.usuario=usuarioService.usuario;
-    this.menuItems=sidebarSettings.menu;
+    
     
   }
 
+  ngOnInit(): void {
+    this.usuario=this.usuarioService.usuario;
+    this.menu=this.sidebarService.menu;
+  }                                                                                                       
   
 
 }
